@@ -2,9 +2,22 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 
+import mongoose from 'mongoose';
+mongoose.set('strictQuery', true);
+const DB_HOST = "mongodb+srv://iratololo:ira19911@cluster0.nzgauxd.mongodb.net/db-contacts?retryWrites=true&w=majority&appName=Cluster0";
+
+mongoose.connect(DB_HOST)
+    .then(() => {app.listen(3000, () => {
+  console.log("Database connection successfull");
+})})
+    .catch(error => {
+        console.log(error.message);
+        process.exit(1);
+    })
+
 import contactsRouter from "./routes/contactsRouter.js";
 
-const app = express();
+export const app = express();
 
 app.use(morgan("tiny"));
 app.use(cors());
@@ -21,6 +34,6 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message });
 });
 
-app.listen(3000, () => {
-  console.log("Server is running. Use our API on port: 3000");
-});
+// app.listen(3000, () => {
+//   console.log("Server is running. Use our API on port: 3000");
+// });
