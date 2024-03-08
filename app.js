@@ -6,6 +6,8 @@ import mongoose from 'mongoose';
 mongoose.set('strictQuery', true);
 const DB_HOST = "mongodb+srv://iratololo:ira19911@cluster0.nzgauxd.mongodb.net/db-contacts?retryWrites=true&w=majority&appName=Cluster0";
 
+export const app = express();
+
 mongoose.connect(DB_HOST)
     .then(() => {app.listen(3000, () => {
   console.log("Database connection successfull");
@@ -17,7 +19,7 @@ mongoose.connect(DB_HOST)
 
 import contactsRouter from "./routes/contactsRouter.js";
 
-export const app = express();
+// export const app = express();
 
 app.use(morgan("tiny"));
 app.use(cors());
