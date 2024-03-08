@@ -2,9 +2,12 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 
+import DB_HOST from "./config.js"
+
 import mongoose from 'mongoose';
 mongoose.set('strictQuery', true);
-const DB_HOST = "mongodb+srv://iratololo:ira19911@cluster0.nzgauxd.mongodb.net/db-contacts?retryWrites=true&w=majority&appName=Cluster0";
+
+// const DB_HOST = "mongodb+srv://iratololo:ira19911@cluster0.nzgauxd.mongodb.net/db-contacts?retryWrites=true&w=majority&appName=Cluster0";
 
 export const app = express();
 
