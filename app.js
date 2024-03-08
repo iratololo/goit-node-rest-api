@@ -2,7 +2,8 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 
-import DB_HOST from "./config.js"
+// import DB_HOST from "process.env";
+const { DB_HOST } = process.env;
 
 import mongoose from 'mongoose';
 mongoose.set('strictQuery', true);
