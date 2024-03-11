@@ -1,6 +1,9 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // import DB_HOST from "process.env";
 const { DB_HOST } = process.env;
