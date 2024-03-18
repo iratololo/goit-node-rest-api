@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-import {handleMongooseError} from "../helpers/handleMongooseError.js"
+import { handleMongooseError } from "../helpers/handleMongooseError.js"
 
 const contactSchema = new Schema({
     name: {
@@ -16,6 +16,11 @@ const contactSchema = new Schema({
     favorite: {
       type: Boolean,
       default: false,
+  },
+  owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
     },
 }, { versionKey: false, timestamps: true })
 

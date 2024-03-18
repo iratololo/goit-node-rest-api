@@ -5,6 +5,12 @@ import dotenv from "dotenv";
 import mongoose from 'mongoose';
 
 import contactsRouter from "./routes/contactsRouter.js";
+import authRouter from "./routes/authRouter.js";
+
+// const createHashPassword = async (password) =>{
+//   const result = await bcrypt.hash(password, 10)
+//   const compareResult = await bcrypt.compare(password, result);
+// }
 
 dotenv.config();
 
@@ -27,6 +33,7 @@ app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/users", authRouter);
 app.use("/api/contacts", contactsRouter);
 
 app.use((_, res) => {
