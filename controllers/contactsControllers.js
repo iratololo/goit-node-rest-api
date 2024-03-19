@@ -3,10 +3,15 @@ import { Contact } from "../db/contact.js"
 
 export const getAllContacts = async (req, res, next) => {
     try {
-    const { _id: owner } = req.user;
-    const { page = 1, limit = 10 } = req.query;
-    const skip = (page - 1) * limit;
-    const result = await Contact.find({owner}, '-createdAt -updatedAt', {skip, limit}).populate("owner");
+        const { _id: owner} = req.user;
+        const { page = 1, limit = 10, favorite} = req.query;
+        const skip = (page - 1) * limit;
+        const result = await Contact.find({ owner }, '-createdAt -updatedAt', { skip, limit }).populate("owner");
+
+        const filter = await Contact.find({ owner, "favorite": favorite}, '-createdAt -updatedAt', { skip, limit }).populate("owner");
+        if (filter.length > 0 && favorite) {
+            res.status(200).json(filter);
+        }
     res.status(200).json(result);
     } catch (error) {
        next(error)

@@ -44,11 +44,11 @@ export const login = async (req, res, next) => {
     const paylod = {
         id: user._id,
     }
-    const token = jwt.sign(paylod, SEKRET_KEY, {expiresIn: '23h'})
-        // const newUser = await User.create({...req.body, password: hashPassword});
+    const token = jwt.sign(paylod, SEKRET_KEY, { expiresIn: '23h' })
+        
     await User.findByIdAndUpdate(user._id, { token });
 
-    res.status(201).json({token, user: {
+    res.status(200).json({token, user: {
     email: user.email,
     subscription: "starter",
   }});
@@ -61,7 +61,7 @@ export const login = async (req, res, next) => {
 export const getCurrent = (req, res, next) => {
     try {
         const { email, subscription } = req.user;
-        res.status(201).json({ email, subscription })
+        res.status(200).json({ email, subscription })
     } catch (error) {
        next(error)
     }

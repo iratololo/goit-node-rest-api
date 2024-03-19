@@ -20,8 +20,8 @@ export const authenticate = async (req, res, next) => {
             next(HttpError(401, "Not authorized"));
         }
         req.user = user;
-         next();
+        next();
     } catch (error) {
-         next(HttpError(401, "Not authorized"));
+        next(HttpError(401, "Not authorized"));
     }
 }

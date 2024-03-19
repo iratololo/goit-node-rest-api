@@ -7,11 +7,6 @@ import mongoose from 'mongoose';
 import contactsRouter from "./routes/contactsRouter.js";
 import authRouter from "./routes/authRouter.js";
 
-// const createHashPassword = async (password) =>{
-//   const result = await bcrypt.hash(password, 10)
-//   const compareResult = await bcrypt.compare(password, result);
-// }
-
 dotenv.config();
 
 const { DB_HOST } = process.env;
