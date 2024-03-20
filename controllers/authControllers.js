@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import fs from "fs/promises";
 import path from "path";
 import gravatar from "gravatar";
+import Jimp from "jimp";
 
 import { User } from "../db/user.js"
 import HttpError from "../helpers/HttpError.js"
@@ -86,6 +87,11 @@ export const updateAvatar = async(req, res, next) => {
     try {
         const { _id } = req.user;
         const { path: tempUpload, originalname } = req.file;
+        const img = await Jimp.read(tempUpload);
+        await img
+        .autocrop()
+        .cover(250, 250, Jimp.HORIZONTAL_ALIGN_CENTER | Jimp.VERTICAL_ALIGN_MIDDLE)
+        .writeAsync(tempUpload);
         const filename = `${_id}_${originalname}`;
         const resultUpload = path.join(avatarDir, filename);
         await fs.rename(tempUpload, resultUpload);
