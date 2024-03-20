@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import fs from "fs/promises";
 import path from "path";
+import gravatar from "gravatar";
 
 import { User } from "../db/user.js"
 import HttpError from "../helpers/HttpError.js"
@@ -11,23 +12,17 @@ dotenv.config();
 const { SEKRET_KEY } = process.env;
 
 const avatarDir = path.join(process.cwd(), "public", "avatars");
-console.log('avatarDir :>> ', import.meta);
 
 export const register = async (req, res, next) => {
     try {
-        console.log('req.body :>> ', req.body);
-        console.log('req.file :>> ', req.file);
-        const { path: tempUpload, originalname } = req.file;
-        const resultUpload = path.join(avatarDir, originalname);
-        await fs.rename(tempUpload, resultUpload)
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (user) {
     throw HttpError(409, "Email in use");
     }
-    const hashPassword = await bcrypt.hash(password, 10)
-        
-    const newUser = await User.create({...req.body, password: hashPassword});
+        const hashPassword = await bcrypt.hash(password, 10);
+        const avatarURL = gravatar.url(email);
+    const newUser = await User.create({...req.body, password: hashPassword, avatarURL: avatarURL});
     res.status(201).json({
     user: {
     email: newUser.email,
@@ -82,6 +77,21 @@ export const logout = async(req, res, next) => {
         const { _id } = req.user;
         await User.findByIdAndUpdate(_id, {token: null})
         res.status(204).json()
+    } catch (error) {
+       next(error)
+    }
+};
+
+export const updateAvatar = async(req, res, next) => {
+    try {
+        const { _id } = req.user;
+        const { path: tempUpload, originalname } = req.file;
+        const filename = `${_id}_${originalname}`;
+        const resultUpload = path.join(avatarDir, filename);
+        await fs.rename(tempUpload, resultUpload);
+        const avatarURL = path.join("avatars", filename)
+        await User.findByIdAndUpdate(_id, { avatarURL: avatarURL });
+        res.status(200).json({avatarURL})
     } catch (error) {
        next(error)
     }
