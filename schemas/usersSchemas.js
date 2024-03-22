@@ -7,7 +7,12 @@ export const registerSchema = Joi.object({
     email: Joi.string().pattern(emailRegexp).required(),
 })
 
+export const emailSchema = Joi.object({
+    email: Joi.string().pattern(emailRegexp).required(),
+})
+
 export const loginSchema = Joi.object({
     password: Joi.string().required(),
     email: Joi.string().pattern(emailRegexp).required(),
 })
+
