@@ -2,7 +2,7 @@ import express from "express";
 
 import validateBody from "../helpers/validateBody.js"
 import {authenticate} from "../helpers/authenticate.js"
-import { registerSchema, loginSchema, emailSchema } from "../schemas/usersSchemas.js"
+import { registerSchema, loginSchema, emailSchema, updateAvatarSchema } from "../schemas/usersSchemas.js"
 import {
   register, login, getCurrent, logout, updateAvatar, verifyEmail, resendVerifyEmail
 } from "../controllers/authControllers.js";
@@ -22,7 +22,7 @@ authRouter.get("/current", authenticate, getCurrent)
 
 authRouter.post("/logout", authenticate, logout)
 
-authRouter.patch("/avatars", authenticate, upload.single("avatar"), updateAvatar)
+authRouter.patch("/avatars", authenticate, validateBody(updateAvatarSchema), upload.single("avatar"), updateAvatar)
 
 
 export default authRouter;
